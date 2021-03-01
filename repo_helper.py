@@ -145,10 +145,12 @@ def update_main(foldername,filename):
         lines=f.readlines()
     files=os.listdir(os.path.join(foldername,"src"))
     files=[file[:-3] for file in files if '.py' in file]
-    for line in lines:
-        for x in [segment for segment in line.split() if segment in files]:
-            line=line.replace(f'import {x}',f'import src.{x}')
-            lineline.replace(f'from {x}',f'from src.{x}')
+    for ix, line in enumerate(lines):
+        if ix<20:
+            for x in [segment for segment in line.split() if segment in files]:
+                line=line.replace(f'import {x}',f'import src.{x}')
+                line=line.replace(f'from {x}',f'from src.{x}')
+                lines[ix]=line
     with open(filename,'w') as f:
         f.writelines(lines)    
 
