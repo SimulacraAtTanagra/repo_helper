@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb 26 22:02:29 2021
-
-@author: shane
-"""
-
 """
 This is the repo builder project. It is intended help me build git repos from
 scratch with minimal effort on my part. So what does a well-formed repo need?
