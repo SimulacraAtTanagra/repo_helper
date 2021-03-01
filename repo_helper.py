@@ -224,7 +224,8 @@ def repo_update(foldername):    #add, commit, create remote, and push to gh
     subprocess.Popen(['git','init'],cwd=foldername)
     subprocess.Popen(['git','add','*'],cwd=foldername)
     subprocess.Popen(['git','commit','-m',message],cwd=foldername)
-    subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
+    x=subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
+    return(x)
     
 
 def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
