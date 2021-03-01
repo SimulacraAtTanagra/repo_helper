@@ -231,7 +231,7 @@ def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
     foldername=phase1(infolder,outfolder)
     foldername=phase2(infolder,outfolder,foldername)
     readme_writer(foldername)
-    repo_update(os.fsdecode(foldername))
+    repo_update(os.path.abspath(foldername))
     project=foldername.split('\\')[-1]
     print(f"Updated {project}")
 
