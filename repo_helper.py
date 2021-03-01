@@ -146,7 +146,7 @@ def update_main(foldername,filename):
     files=os.listdir(os.path.join(foldername,"src"))
     files=[file[:-3] for file in files if '.py' in file]
     for ix, line in enumerate(lines):
-        if ix<20:
+        if ix<30:
             for x in [segment for segment in line.split() if segment in files]:
                 line=line.replace(f'import {x}',f'import src.{x}')
                 line=line.replace(f'from {x}',f'from src.{x}')
