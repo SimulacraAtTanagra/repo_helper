@@ -137,7 +137,9 @@ def mass_move(foldername,files,outfolder):
     for file in files:
         filename=os.path.join(foldername,file)
         shutil.move(filename,outfolder)
-    
+
+#replacing lines in original file that reference source files
+#TODO build an anonymizer to strip my sensitive information and call here
 def update_main(foldername,filename):
     with open(filename,'r') as f:
         lines=f.readlines()
@@ -224,6 +226,7 @@ def repo_update(foldername):    #add, commit, create remote, and push to gh
     selection=foldername.split("\\")[-1]
     message="Initial commit"
     subprocess.Popen(['gh','repo','create',selection,'--confirm','--public'],cwd=foldername)
+    subprocess.Popen(['git','init'],cwd=foldername)
     subprocess.Popen(['git','add','*'],cwd=foldername)
     subprocess.Popen(['git','commit','-m',message],cwd=foldername)
     subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
