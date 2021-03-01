@@ -147,8 +147,8 @@ def update_main(foldername,filename):
     files=[file[:-3] for file in files if '.py' in file]
     for line in lines:
         for x in [segment for segment in line.split() if segment in files]:
-            line.replace(f'import {x}',f'import src.{x}')
-            line.replace(f'from {x}',f'from src.{x}')
+            line=line.replace(f'import {x}',f'import src.{x}')
+            lineline.replace(f'from {x}',f'from src.{x}')
     with open(filename,'w') as f:
         f.writelines(lines)    
 
