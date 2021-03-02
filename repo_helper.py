@@ -224,18 +224,25 @@ def repo_create(foldername):
     
 def repo_update(foldername):    #add, commit, create remote, and push to gh
     message="Initial commit"
-    subprocess.Popen(['git','init'],cwd=foldername)
-    subprocess.Popen(['git','add','*'],cwd=foldername)
-    subprocess.Popen(['git','commit','-m',message],cwd=foldername)
-    subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
-
+    #this workaround is to call communicate without having to see it
+    #for whatever reason, this segment absolutely will not work without that
+    #at least not as a function. Weird, right, reader?
+    comms_list=[]
+    x=subprocess.Popen(['git','init'],cwd=foldername)
+    comms_list.append(x.communicate())
+    x=subprocess.Popen(['git','add','*'],cwd=foldername)
+    comms_list.append(x.communicate())
+    x=subprocess.Popen(['git','commit','-m',message],cwd=foldername)
+    comms_list.append(x.communicate())
+    x=subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
+    comms_list.append(x.communicate())
     
 
 def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
     foldername=phase1(infolder,outfolder)
     foldername=phase2(infolder,outfolder,foldername)
-    readme_writer(foldername)
     repo_create(foldername)
+    readme_writer(foldername)
     repo_update(os.path.abspath(foldername))
     project=foldername.split('\\')[-1]
     print(f"Updated {project}")
