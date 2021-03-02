@@ -227,7 +227,7 @@ def repo_update(foldername):    #add, commit, create remote, and push to gh
     message="Initial commit"
     #this workaround is to call communicate without having to see it
     #for whatever reason, this segment absolutely will not work without that
-    #at least not as a function. Weird, right, reader?
+    #at least not as a function. Weird, right, Reader?
     comms_list=[]
     x=subprocess.Popen(['git','init'],cwd=foldername)
     comms_list.append(x.communicate())
