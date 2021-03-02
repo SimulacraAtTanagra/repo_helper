@@ -223,8 +223,11 @@ def repo_create(foldername):
     selection=foldername.split("\\")[-1]
     subprocess.Popen(['gh','repo','create',selection,'--confirm','--public'],cwd=foldername)
     
-def repo_update(foldername):    #add, commit, create remote, and push to gh
-    message="Initial commit"
+def repo_update(foldername,message=None):    #add, commit, create remote, and push to gh
+    if message:
+        message=message
+    else:
+        message="Initial commit"
     #this workaround is to call communicate without having to see it
     #for whatever reason, this segment absolutely will not work without that
     #at least not as a function. Weird, right, Reader?
