@@ -217,21 +217,25 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
     with open(readme_file,'w') as f:
         f.writelines(readme)
         
-def repo_update(foldername):    #add, commit, create remote, and push to gh
+        
+def repo_create(foldername):
     selection=foldername.split("\\")[-1]
-    message="Initial commit"
     subprocess.Popen(['gh','repo','create',selection,'--confirm','--public'],cwd=foldername)
+    
+def repo_update(foldername):    #add, commit, create remote, and push to gh
+    message="Initial commit"
     subprocess.Popen(['git','init'],cwd=foldername)
     subprocess.Popen(['git','add','*'],cwd=foldername)
     subprocess.Popen(['git','commit','-m',message],cwd=foldername)
-    x=subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
-    return(x)
+    subprocess.Popen(['git','push','-u','origin','master'],cwd=foldername)
+
     
 
 def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
     foldername=phase1(infolder,outfolder)
     foldername=phase2(infolder,outfolder,foldername)
     readme_writer(foldername)
+    repo_create(foldername)
     repo_update(os.path.abspath(foldername))
     project=foldername.split('\\')[-1]
     print(f"Updated {project}")
