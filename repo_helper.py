@@ -125,6 +125,7 @@ def create_reqs(foldername):
     command="pipreqs .\ "
     subprocess_cmd(command,foldername)
 
+
 #last, we create src folder and move the files in, and update the top level py
 def mass_move(foldername,files,outfolder):
     for file in files:
@@ -175,8 +176,8 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
         backstory=backstory
     else:
         backstory=input("In a few sentences, explain why it is/was needed\n")
-    libraries=os.path.join(foldername,'requirements.txt')
-    if fileverify(libraries):
+    if 'requirements.txt' in os.listdir(foldername):
+        libraries=os.path.join(foldername,'requirements.txt')
         with open (libraries,'r') as f:
             lines=f.readlines()
             libs=', '.join([line.split("=")[0] for line in lines])
@@ -202,7 +203,7 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
     readme2="## Here's some back story on why I needed to build this:"
     if len(libs)>1:
         readme3=f"This project leverages {libs}."
-    else: readme3=""
+    else: readme3="This project uses only python built-in functions and data types."
     if len(prework)>2:
         readme4=f"##In order to use this, you'll first need do the following:"
         
