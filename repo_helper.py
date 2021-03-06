@@ -217,7 +217,7 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
     readme_file=os.path.join(foldername,"README.md")
     with open(readme_file,'w') as f:
         f.writelines(readme)
-        
+#TODO add license from templates (stored in classes in anotehr file(?))
         
 def repo_create(foldername):
     selection=foldername.split("\\")[-1]
@@ -252,6 +252,7 @@ def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
     repo_update(os.path.abspath(foldername))
     project=foldername.split('\\')[-1]
     print(f"Updated {project}")
+
 
 
 if __name__=="__main__":
