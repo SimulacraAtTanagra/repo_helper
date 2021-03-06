@@ -202,18 +202,16 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
     readme1="## The purpose of this project is as follows:"
     readme2="## Here's some back story on why I needed to build this:"
     if len(libs)>1:
-        readme3="##This project leverages the following libraries:"
-    else: readme3="##This project uses only python built-in functions and data types."
+        readme3="## This project leverages the following libraries:"
+    else: readme3="## This project uses only python built-in functions and data types."
     if len(prework)>2:
-        readme4="##In order to use this, you'll first need do the following:"
+        readme4="## In order to use this, you'll first need do the following:"
         
     else:
-        readme4="##This project does not require any special setup steps."
+        readme4="## This project does not require any special setup steps."
         prework=""
-    readme5="##The expected frequency for running this code is as follows:"
-    bre="""
-    &nbsp;
-    """
+    readme5="## The expected frequency for running this code is as follows:"
+    bre="\n"
     readme=[readme1,bre,purpose,bre,readme2,bre,backstory,bre,readme3,
             bre,libs,bre,readme4,bre,prework,bre,readme5,bre,frequency]
     readme_file=os.path.join(foldername,"README.md")
