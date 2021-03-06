@@ -212,7 +212,7 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
         prework=""
     readme5="##The expected frequency for running this code is as follows:"
     bre="""
-    
+    &nbsp;
     """
     readme=[readme1,bre,purpose,bre,readme2,bre,backstory,bre,readme3,
             bre,libs,bre,readme4,bre,prework,bre,readme5,bre,frequency]
