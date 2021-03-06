@@ -234,6 +234,8 @@ def repo_update(foldername,message=None):    #add, commit, create remote, and pu
     comms_list=[]
     x=subprocess.Popen(['git','init'],cwd=foldername)
     comms_list.append(x.communicate())
+    x=subprocess.Popen(['git','pull'],cwd=foldername)
+    comms_list.append(x.communicate())
     x=subprocess.Popen(['git','add','*'],cwd=foldername)
     comms_list.append(x.communicate())
     x=subprocess.Popen(['git','commit','-m',message],cwd=foldername)
