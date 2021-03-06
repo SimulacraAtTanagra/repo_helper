@@ -51,7 +51,7 @@ def fuzzywuz(person_nm,col: list):
     return(x[0])
     
 def rehead(df,num):
-    new_header = df.iloc[(num-1)] #grab the first row for the header
+    new_header = df.iloc[(num-1)].values #grab the first row for the header
     df = df[num:] #take the data less the header row
     df.columns = new_header #set the header row as the df heade
     return(df)
