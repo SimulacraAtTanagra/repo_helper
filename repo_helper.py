@@ -211,9 +211,11 @@ def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=
         readme4="##This project does not require any special setup steps."
         prework=""
     readme5="##The expected frequency for running this code is as follows:"
+    bre="""
     
-    readme=[readme1,"\n",purpose,"\n",readme2,"\n",backstory,"\n",readme3,
-            "\n",libs,"\n",readme4,"\n",prework,"\n",readme5,"\n",frequency]
+    """
+    readme=[readme1,bre,purpose,bre,readme2,bre,backstory,bre,readme3,
+            bre,libs,bre,readme4,bre,prework,bre,readme5,bre,frequency]
     readme_file=os.path.join(foldername,"README.md")
     with open(readme_file,'w') as f:
         f.writelines(readme)
