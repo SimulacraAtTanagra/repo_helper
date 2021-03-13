@@ -134,6 +134,9 @@ def mass_move(foldername,files,outfolder):
 
 #replacing lines in original file that reference source files
 #TODO build an anonymizer to strip my sensitive information and call here
+def write_py(filename,lines):
+    with open(filename,'w') as f:
+        f.writelines(lines) 
 def update_main(foldername,filename):
     with open(filename,'r') as f:
         lines=f.readlines()
@@ -145,8 +148,7 @@ def update_main(foldername,filename):
                 line=line.replace(f'import {x}',f'import src.{x}')
                 line=line.replace(f'from {x}',f'from src.{x}')
                 lines[ix]=line
-    with open(filename,'w') as f:
-        f.writelines(lines)    
+    write_py(filename,lines)
 
 def create_src(foldername,filename):
     files=os.listdir(foldername)
