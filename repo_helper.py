@@ -167,6 +167,18 @@ def phase2(infolder,outfolder,foldername): #takes downstream args,parses py file
     create_reqs(foldername)
     create_src(foldername,filename)
     return(foldername)
+
+def license_writer(foldername,licenseloc, license=None):
+    #first, we store licenses as json file in definite location
+    licenses=read_json(licenseloc)  #reading dictionary into memory
+    if license: #if we name a specific one, give us that one
+        return(licenses[license])
+    else:
+        #TODO
+        #else some other process where it gives us the names and a brief desc
+        #and we choose
+        print("do something here shane")
+    
     
 def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=None):
     #TODO make this tool more sophisticated to work with metaprogram 
