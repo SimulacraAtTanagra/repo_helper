@@ -21,7 +21,7 @@ The run frequency for this program is as needed.
 import os
 import shutil
 import subprocess
-from admin import fileverify
+from admin import fileverify, read_json
 
 
 #first, determine which files already exist as folder names in the repo folder
@@ -179,7 +179,9 @@ def license_writer(foldername,licenseloc, license=None):
         #and we choose
         print("do something here shane")
     
-    
+#TODO update this to reate a json file inside the repo with this information
+#this will make future updates of readme much, much easier
+#TODO modify this function to accept optional json argument for that reason
 def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=None):
     #TODO make this tool more sophisticated to work with metaprogram 
     if purpose:
