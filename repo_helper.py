@@ -272,6 +272,6 @@ def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
 
 
 if __name__=="__main__":
-    infolder=r'C:\Users\shane\Desktop\Projects\Programs'   #this is the folder containing the working code
-    outfolder=r'C:\Users\shane\Desktop\Programming'  #this is the project folder to be updated and pushed
+    infolder=PROG   #this is the folder containing the working code
+    outfolder=REPO  #this is the project folder to be updated and pushed
     phase3(infolder,outfolder)
