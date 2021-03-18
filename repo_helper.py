@@ -21,8 +21,11 @@ The run frequency for this program is as needed.
 import os
 import shutil
 import subprocess
-from admin import fileverify, read_json
+from admin import fileverify, read_json, write_json
 
+#TODO modify readme creation to also write json file 
+#TODO modify readme creation to also look for a json file before asking questions
+#and in lieu of accepting optional arguments(???)
 
 #first, determine which files already exist as folder names in the repo folder
 
@@ -269,7 +272,7 @@ def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
     project=foldername.split('\\')[-1]
     print(f"Updated {project}")
 
-
+#TODO add a main function here
 
 if __name__=="__main__":
     infolder=PROG   #this is the folder containing the working code
