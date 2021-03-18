@@ -10,6 +10,7 @@ import os
 from fuzzywuzzy import process
 import json
 from itertools import chain
+import subprocess
 
 #this is an administrative source file
 #it holds code used in most, if not all, of my other work-related projects
