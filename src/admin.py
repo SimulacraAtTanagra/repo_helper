@@ -116,3 +116,9 @@ def write_json(someobj,filename):
   with open(f'{filename}.json','w') as f:
     json.dump(someobj,f)
     
+
+def subprocess_cmd(command,wd):
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True,cwd=wd)
+    proc_stdout = process.communicate()[0].strip()
+    print(proc_stdout)
+    

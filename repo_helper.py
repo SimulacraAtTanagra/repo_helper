@@ -21,8 +21,9 @@ The run frequency for this program is as needed.
 import os
 import shutil
 import subprocess
-from admin import fileverify, read_json, write_json
+from admin import read_json, subprocess_cmd
 from readme_writer import readme_writer
+from req_funcs import create_reqs
 
 #TODO modify readme creation to also write json file 
 #TODO modify readme creation to also look for a json file before asking questions
@@ -66,11 +67,6 @@ def select_file(filelist):  #forcing user to choose which file to work on
         selection=None
     return(selection)
 
-def subprocess_cmd(command,wd):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True,cwd=wd)
-    proc_stdout = process.communicate()[0].strip()
-    print(proc_stdout)
-    
 #next, create that folder and init the repo, add file to start
 def repo_init(infolder,selection,foldername):
     fname=os.path.join(infolder,selection+'.py')
@@ -128,12 +124,6 @@ def recursive_import(infolder,foldername,files):
         recursive_import(infolder,foldername,files)
     else:
         return(True)            
-
-#once that's done, we generate requirements using pipreqs
-def create_reqs(foldername):
-    command="pipreqs .\ "
-    subprocess_cmd(command,foldername)
-
 
 #last, we create src folder and move the files in, and update the top level py
 def mass_move(foldername,files,outfolder):
