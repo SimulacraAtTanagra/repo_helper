@@ -22,6 +22,7 @@ import os
 import shutil
 import subprocess
 from admin import fileverify, read_json, write_json
+from readme_writer import readme_writer
 
 #TODO modify readme creation to also write json file 
 #TODO modify readme creation to also look for a json file before asking questions
@@ -59,7 +60,10 @@ def select_file(filelist):  #forcing user to choose which file to work on
     filedict={str(ix):i for ix,i in enumerate(filelist)} #for easiest reference
     print("Please select which program you'd like to create a repo for.")
     nice_print(filelist)
-    selection=filedict[input("Please enter the number of your selection.")]
+    try:
+        selection=filedict[input("Please enter the number of your selection.")]
+    except KeyError:
+        selection=None
     return(selection)
 
 def subprocess_cmd(command,wd):
@@ -78,6 +82,8 @@ def repo_init(infolder,selection,foldername):
 
 def phase1(infolder,outfolder)->str: #takes folders, creates folder,git, outputs path
     selection=select_file(compare_lists(infolder,outfolder))
+    if selection==None:
+        return(None)
     foldername=os.path.join(outfolder,selection)
     #repo=repo_init(foldername)
     repo_init(infolder,selection,foldername)    
@@ -181,61 +187,6 @@ def license_writer(foldername,licenseloc, license=None):
         #else some other process where it gives us the names and a brief desc
         #and we choose
         print("do something here shane")
-    
-#TODO update this to reate a json file inside the repo with this information
-#this will make future updates of readme much, much easier
-#TODO modify this function to accept optional json argument for that reason
-def readme_writer(foldername,purpose=None,backstory=None,prework=None,frequency=None):
-    #TODO make this tool more sophisticated to work with metaprogram 
-    if purpose:
-        purpose=purpose
-    else:
-        purpose=input("In 1 brief sentence, please describe what this project does \n")
-    if backstory:
-        backstory=backstory
-    else:
-        backstory=input("In a few sentences, explain why it is/was needed\n")
-    if 'requirements.txt' in os.listdir(foldername):
-        libraries=os.path.join(foldername,'requirements.txt')
-        with open (libraries,'r') as f:
-            lines=f.readlines()
-            libs=', '.join([line.split("=")[0] for line in lines])
-    else:
-        libs=""
-    if prework:
-        prework=prework
-    else:
-        prework=input('Is there anything a user needs to do prior to running? If yes, write that out below.\n')
-    
-    if frequency:
-        frequency=frequency
-    else:
-        freq=['Continuously','Daily','Weekly','Monthly','As Needed']
-        freqdict={str(ix):i for ix,i in enumerate(freq)}
-        #TODO replace with stdout, add exception handling here
-        print("How often is this intended to be run?")
-        for ix,i in enumerate(freq):
-            print(f'{ix}. {i}')
-        frequency=freqdict[input('Please enter your selection number.\n')]
-    #TODO include fancy formatting later
-    readme1="## The purpose of this project is as follows:"
-    readme2="## Here's some back story on why I needed to build this:"
-    if len(libs)>1:
-        readme3="## This project leverages the following libraries:"
-    else: readme3="## This project uses only python built-in functions and data types."
-    if len(prework)>2:
-        readme4="## In order to use this, you'll first need do the following:"
-        
-    else:
-        readme4="## This project does not require any special setup steps."
-        prework=""
-    readme5="## The expected frequency for running this code is as follows:"
-    bre="\n"
-    readme=[readme1,bre,purpose,bre,readme2,bre,backstory,bre,readme3,
-            bre,libs,bre,readme4,bre,prework,bre,readme5,bre,frequency]
-    readme_file=os.path.join(foldername,"README.md")
-    with open(readme_file,'w') as f:
-        f.writelines(readme)
 #TODO add license from templates (stored in classes in anotehr file(?))
         
 def repo_create(foldername):
@@ -263,18 +214,21 @@ def repo_update(foldername,message=None):    #add, commit, create remote, and pu
     comms_list.append(x.communicate())
     
 
-def phase3(infolder,outfolder): #takes downstream arges, creates readme, push
-    foldername=phase1(infolder,outfolder)
-    foldername=phase2(infolder,outfolder,foldername)
+def phase3(foldername): #takes downstream arges, creates readme, push
     repo_create(foldername)
     readme_writer(foldername)
     repo_update(os.path.abspath(foldername))
     project=foldername.split('\\')[-1]
     print(f"Updated {project}")
 
+def main(infolder,outfolder):
+    foldername=phase1(infolder,outfolder)
+    foldername=phase2(infolder,outfolder,foldername)
+    phase3(foldername)
+
 #TODO add a main function here
 
 if __name__=="__main__":
     infolder=PROG   #this is the folder containing the working code
     outfolder=REPO  #this is the project folder to be updated and pushed
-    phase3(infolder,outfolder)
+    main(infolder,outfolder)
