@@ -69,6 +69,7 @@ def mover(path,fname,dest):
     newpath=dest+fname
     os.rename(oldpath,newpath)   
 
+#TODO fix nice_print so that it will choose double or single columns based on length
 def nice_print(filelist):   #function courtesy of Aaron Digulla @ SO
     filelist=[f'{ix}. {i}' for ix,i in enumerate(filelist)]
     if len(filelist) % 2 != 0:
@@ -105,7 +106,7 @@ def rehead(df,num):
 
 def select_thing(filelist):  #forcing user to choose which objecct to work with
     filedict={str(ix):i for ix,i in enumerate(filelist)} #for easiest reference
-    print("Please select which program you'd like to create a repo for.")
+    print("Please select an item from this list.")
     nice_print(filelist)
     try:
         selection=filedict[input("Please enter the number of your selection.")]
