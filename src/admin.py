@@ -46,6 +46,9 @@ def combine_dict(dict1,dict2):
     bigdict.update(inboth)
     return(bigdict)
 
+def flat_list(nestedlists:list) ->list:  #function to flatten lists
+    return(chain(*nestedlists))
+
 def fileverify(fname):
     os.path.isfile(fname) 
   
@@ -65,6 +68,17 @@ def mover(path,fname,dest):
         dest+="\\"
     newpath=dest+fname
     os.rename(oldpath,newpath)   
+
+def nice_print(filelist):   #function courtesy of Aaron Digulla @ SO
+    filelist=[f'{ix}. {i}' for ix,i in enumerate(filelist)]
+    if len(filelist) % 2 != 0:
+        filelist.append(" ")    
+    split = int(len(filelist)/2)
+    l1 = filelist[0:split]
+    l2 = filelist[split:]
+    for key, value in zip(l1,l2):
+        print("{0:<20s} {1}".format(key, value))
+    return('')
 
 def read_json(filename):
   if ".json" in filename:
@@ -89,6 +103,21 @@ def rehead(df,num):
     df.columns = new_header #set the header row as the df heade
     return(df)
 
+def select_thing(filelist):  #forcing user to choose which objecct to work with
+    filedict={str(ix):i for ix,i in enumerate(filelist)} #for easiest reference
+    print("Please select which program you'd like to create a repo for.")
+    nice_print(filelist)
+    try:
+        selection=filedict[input("Please enter the number of your selection.")]
+    except KeyError:
+        selection=None
+    return(selection)
+
+def subprocess_cmd(command,wd):
+    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True,cwd=wd)
+    proc_stdout = process.communicate()[0].strip()
+    print(proc_stdout)
+    
 def to_records(path,fname,reheadnum):
     df=colclean(rehead(pd.read_excel(newest(path,fname)),reheadnum))
     return(list(df.itertuples(index=False,name=None)))
@@ -110,16 +139,7 @@ def update_json(filename,someobj):
     else:
         write_json(someobj,filename[:-4])
         
-def flat_list(nestedlists:list) ->list:  #function to flatten lists
-    return(chain(*nestedlists))
-    
 def write_json(someobj,filename):
   with open(f'{filename}.json','w') as f:
     json.dump(someobj,f)
-    
-
-def subprocess_cmd(command,wd):
-    process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True,cwd=wd)
-    proc_stdout = process.communicate()[0].strip()
-    print(proc_stdout)
     

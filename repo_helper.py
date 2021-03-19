@@ -21,7 +21,7 @@ The run frequency for this program is as needed.
 import os
 import shutil
 import subprocess
-from admin import read_json, subprocess_cmd
+from admin import read_json, subprocess_cmd, nice_print, select_thing
 from readme_writer import readme_writer
 from req_funcs import create_reqs
 
@@ -46,26 +46,7 @@ def compare_lists(filefolder,folderfolder):
     folders=grab_foldernames(folderfolder)
     return([file for file in files if file not in folders])
 
-def nice_print(filelist):   #function courtesy of Aaron Digulla @ SO
-    filelist=[f'{ix}. {i}' for ix,i in enumerate(filelist)]
-    if len(filelist) % 2 != 0:
-        filelist.append(" ")    
-    split = int(len(filelist)/2)
-    l1 = filelist[0:split]
-    l2 = filelist[split:]
-    for key, value in zip(l1,l2):
-        print("{0:<20s} {1}".format(key, value))
-    return('')
 
-def select_file(filelist):  #forcing user to choose which file to work on
-    filedict={str(ix):i for ix,i in enumerate(filelist)} #for easiest reference
-    print("Please select which program you'd like to create a repo for.")
-    nice_print(filelist)
-    try:
-        selection=filedict[input("Please enter the number of your selection.")]
-    except KeyError:
-        selection=None
-    return(selection)
 
 #next, create that folder and init the repo, add file to start
 def repo_init(infolder,selection,foldername):
@@ -77,7 +58,7 @@ def repo_init(infolder,selection,foldername):
     
 
 def phase1(infolder,outfolder)->str: #takes folders, creates folder,git, outputs path
-    selection=select_file(compare_lists(infolder,outfolder))
+    selection=select_thing(compare_lists(infolder,outfolder))
     if selection==None:
         return(None)
     foldername=os.path.join(outfolder,selection)
