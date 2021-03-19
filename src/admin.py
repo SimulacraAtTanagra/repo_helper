@@ -72,13 +72,17 @@ def mover(path,fname,dest):
 #TODO fix nice_print so that it will choose double or single columns based on length
 def nice_print(filelist):   #function courtesy of Aaron Digulla @ SO
     filelist=[f'{ix}. {i}' for ix,i in enumerate(filelist)]
-    if len(filelist) % 2 != 0:
-        filelist.append(" ")    
-    split = int(len(filelist)/2)
-    l1 = filelist[0:split]
-    l2 = filelist[split:]
-    for key, value in zip(l1,l2):
-        print("{0:<20s} {1}".format(key, value))
+    if max([len(x) for x in filelist])>30:
+        for item in filelist:
+            print(item)
+    else:
+        if len(filelist) % 2 != 0:
+            filelist.append(" ")    
+        split = int(len(filelist)/2)
+        l1 = filelist[0:split]
+        l2 = filelist[split:]
+        for key, value in zip(l1,l2):
+            print("{0:<20s} {1}".format(key, value))
     return('')
 
 def read_json(filename):
