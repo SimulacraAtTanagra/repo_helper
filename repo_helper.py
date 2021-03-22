@@ -21,7 +21,7 @@ The run frequency for this program is as needed.
 import os
 import shutil
 import subprocess
-from admin import read_json, subprocess_cmd, nice_print, select_thing
+from src.admin import read_json, subprocess_cmd, nice_print, select_thing
 from readme_writer import readme_writer
 from req_funcs import create_reqs
 
