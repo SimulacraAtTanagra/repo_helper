@@ -74,14 +74,15 @@ def library_search(pyfile):
         lines=f.readlines()
     #isolating the lines we want
     lines=[line for line in lines if line.split(" ")[0] in ['from','import']]
+    lines=[line.replace('src.','') for line in lines]
     #isolating the references
     lines=[line.split(" ")[1].replace("\n","") for line in lines]
     return(lines)
     
 #next, we look in the list of local files to see if any are imported
 def local_imports(imports,files):
-    locals=[x for x in imports if x in [file[:-3] for file in files]]
-    return(locals)
+    locals_=[x for x in imports if x in [file[:-3] for file in files]]
+    return(locals_)
     
     
 #if they have been, we copy files into folder, then perform the same check on them
@@ -97,9 +98,9 @@ def recursive_import(infolder,foldername,files):
     for i in contents:
         filename=os.path.join(foldername,i)
         imports=library_search(filename)
-        locals=local_imports(imports,files)
-        locals=[file for file in locals if file+'.py' not in contents]
-        locallist.extend(locals)
+        locals_=local_imports(imports,files)
+        locals_=[file for file in locals_ if file+'.py' not in contents]
+        locallist.extend(locals_)
     if locallist!=[]:
         mass_copy(locallist,infolder,foldername)
         recursive_import(infolder,foldername,files)
