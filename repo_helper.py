@@ -69,7 +69,7 @@ def phase1(infolder,outfolder)->str: #takes folders, creates folder,git, outputs
 
 
 #first, we open the py file in read mode, parse import statements
-def pyread(pyfile):
+def library_search(pyfile):
     with open(pyfile, 'r') as f:
         lines=f.readlines()
     #isolating the lines we want
@@ -96,7 +96,7 @@ def recursive_import(infolder,foldername,files):
     locallist=[]
     for i in contents:
         filename=os.path.join(foldername,i)
-        imports=pyread(filename)
+        imports=library_search(filename)
         locals=local_imports(imports,files)
         locals=[file for file in locals if file+'.py' not in contents]
         locallist.extend(locals)
