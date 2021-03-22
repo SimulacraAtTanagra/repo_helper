@@ -15,13 +15,23 @@ import subprocess
 #this is an administrative source file
 #it holds code used in most, if not all, of my other work-related projects
 
-def newest(path,fname):     #this function returns newest file in folder by name
+def newest(path,fname,itera=None):     #this function returns newest file in folder by name
+    #optional argument to perform multisearch
+    #optional argument doesn't disrupt existing operations, maintains original behavior
     files = os.listdir(path)
     paths = [os.path.join(path, basename) for basename in files if fname in basename]
-    return max(paths, key=os.path.getmtime)
+    thatlist=sorted(paths,key=os.path.getmtime)
+    finallist=[]
+    if itera:
+        for i in range(itera):
+            finallist.append(thatlist[-(i+1)])
+    else:
+        finallist=thatlist[-1]
+    return(finallist)
 
 def colclean(df):           #this file make dataframe headers more manageable
     df.columns = df.columns.astype('str').str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
+    #TODO use function to do replacements using list
     return(df)
 def get_vars(obj):
     if type(obj)==dict:
