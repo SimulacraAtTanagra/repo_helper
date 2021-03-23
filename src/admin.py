@@ -1,16 +1,11 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep  9 08:12:46 2020
-
-@author: sayers
-"""
-
 import pandas as pd
 import os
 from fuzzywuzzy import process
 import json
 from itertools import chain
 import subprocess
+import datetime as dt
+from datetime import datetime as dt2
 
 #this is an administrative source file
 #it holds code used in most, if not all, of my other work-related projects
@@ -23,16 +18,20 @@ def newest(path,fname,itera=None):     #this function returns newest file in fol
     thatlist=sorted(paths,key=os.path.getmtime)
     finallist=[]
     if itera:
-        for i in range(itera):
-            finallist.append(thatlist[-(i+1)])
+        itera=itera
     else:
-        finallist=thatlist[-1]
+        itera=1
+    for i in range(itera):
+        finallist.append(thatlist[-(i+1)])
+    if len(finallist)<2:
+        finallist=finallist[0]
     return(finallist)
 
 def colclean(df):           #this file make dataframe headers more manageable
     df.columns = df.columns.astype('str').str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
     #TODO use function to do replacements using list
     return(df)
+    
 def get_vars(obj):
     if type(obj)==dict:
         return(obj)
