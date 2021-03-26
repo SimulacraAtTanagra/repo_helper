@@ -10,23 +10,6 @@ from datetime import datetime as dt2
 #this is an administrative source file
 #it holds code used in most, if not all, of my other work-related projects
 
-def newest(path,fname,itera=None):     #this function returns newest file in folder by name
-    #optional argument to perform multisearch
-    #optional argument doesn't disrupt existing operations, maintains original behavior
-    files = os.listdir(path)
-    paths = [os.path.join(path, basename) for basename in files if fname in basename]
-    thatlist=sorted(paths,key=os.path.getmtime)
-    finallist=[]
-    if itera:
-        itera=itera
-    else:
-        itera=1
-    for i in range(itera):
-        finallist.append(thatlist[-(i+1)])
-    if len(finallist)<2:
-        finallist=finallist[0]
-    return(finallist)
-
 def colclean(df):           #this file make dataframe headers more manageable
     df.columns = df.columns.astype('str').str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
     #TODO use function to do replacements using list
@@ -78,7 +61,24 @@ def mover(path,fname,dest):
     newpath=dest+fname
     os.rename(oldpath,newpath)   
 
-#TODO fix nice_print so that it will choose double or single columns based on length
+
+def newest(path,fname,itera=None):     #this function returns newest file in folder by name
+    #optional argument to perform multisearch
+    #optional argument doesn't disrupt existing operations, maintains original behavior
+    files = os.listdir(path)
+    paths = [os.path.join(path, basename) for basename in files if fname in basename]
+    thatlist=sorted(paths,key=os.path.getmtime)
+    finallist=[]
+    if itera:
+        itera=itera
+    else:
+        itera=1
+    for i in range(itera):
+        finallist.append(thatlist[-(i+1)])
+    if len(finallist)<2:
+        finallist=finallist[0]
+    return(finallist)
+
 def nice_print(filelist):   #function courtesy of Aaron Digulla @ SO
     filelist=[f'{ix}. {i}' for ix,i in enumerate(filelist)]
     if max([len(x) for x in filelist])>30:
@@ -101,6 +101,12 @@ def read_json(filename):
   else:
       return(None)
 
+def rehead(df,num):
+    new_header = df.iloc[(num-1)].values #grab the first row for the header
+    df = df[num:] #take the data less the header row
+    df.columns = new_header #set the header row as the df heade
+    return(df)
+
 def renamefile(path,fname,newname):
     newpath = path+newname
     os.rename(r''+newest(path,fname),r''+newpath)
@@ -110,12 +116,6 @@ def retrieve(df_name,fname):
     df_name=pd.read_excel(fname)
     df_name.name=x
     return(df_name)
-     
-def rehead(df,num):
-    new_header = df.iloc[(num-1)].values #grab the first row for the header
-    df = df[num:] #take the data less the header row
-    df.columns = new_header #set the header row as the df heade
-    return(df)
 
 def select_thing(filelist):  #forcing user to choose which objecct to work with
     filedict={str(ix):i for ix,i in enumerate(filelist)} #for easiest reference
