@@ -1,33 +1,11 @@
-"""
-This is the repo builder project. It is intended help me build git repos from
-scratch with minimal effort on my part. So what does a well-formed repo need?
 
-It needs a requirements list.
-It needs a readme.
-A main file
-a source folder for dependencies
-
-
-Phase 1) - input python file is selected, Folder is creatd with same name as py
-file, Create the blank remote repo, connect them (?)
-Phase 2) - import statements parsed, split, find matching files in programming
-folder, create src folder, copy matches to folder, requirements written
-Phase 3) - Structured readme is written from input. Commit and push. 
-
-The run frequency for this program is as needed. 
-
-"""
 
 import os
 import shutil
 import subprocess
-from src.admin import read_json, subprocess_cmd, nice_print, select_thing
+from admin import read_json, subprocess_cmd, nice_print, select_thing
 from readme_writer import readme_writer
 from req_funcs import create_reqs
-
-#TODO modify readme creation to also write json file 
-#TODO modify readme creation to also look for a json file before asking questions
-#and in lieu of accepting optional arguments(???)
 
 #first, determine which files already exist as folder names in the repo folder
 
@@ -118,6 +96,7 @@ def mass_move(foldername,files,outfolder):
 def write_py(filename,lines):
     with open(filename,'w') as f:
         f.writelines(lines) 
+
 def update_main(foldername,filename):
     with open(filename,'r') as f:
         lines=f.readlines()
@@ -194,11 +173,28 @@ def phase3(foldername): #takes downstream arges, creates readme, push
     print(f"Updated {project}")
 
 def main(infolder,outfolder):
+    """
+    This is the repo builder project. It is intended help me build git repos from
+    scratch with minimal effort on my part. So what does a well-formed repo need?
+    
+    It needs a requirements list.
+    It needs a readme.
+    A main file
+    a source folder for dependencies
+    
+    
+    Phase 1) - input python file is selected, Folder is creatd with same name as py
+    file, Create the blank remote repo, connect them (?)
+    Phase 2) - import statements parsed, split, find matching files in programming
+    folder, create src folder, copy matches to folder, requirements written
+    Phase 3) - Structured readme is written from input. Commit and push. 
+    
+    The run frequency for this program is as needed. 
+    
+    """
     foldername=phase1(infolder,outfolder)
     foldername=phase2(infolder,outfolder,foldername)
     phase3(foldername)
-
-#TODO add a main function here
 
 if __name__=="__main__":
     infolder=PROG   #this is the folder containing the working code
