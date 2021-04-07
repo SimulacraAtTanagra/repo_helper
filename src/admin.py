@@ -7,6 +7,7 @@ import subprocess
 import datetime as dt
 from datetime import datetime as dt2
 from Crypto.Cipher import AES
+import pip
 
 #this is an administrative source file
 #it holds code used in most, if not all, of my other work-related projects
@@ -72,6 +73,12 @@ def fuzzywuz(person_nm,col: list):
     choices = col
     x= process.extractOne(query, choices) 
     return(x[0])    
+
+def install(package):
+    if hasattr(pip, 'main'):
+        pip.main(['install', package])
+    else:
+        pip._internal.main(['install', package])
 
 def jsrename(emplid,download_dir):  
     #this is part of the workflow for downloading things from job summary
