@@ -87,6 +87,11 @@ def jsrename(emplid,download_dir):
     df=[tuple([emplid]+list(i)) for i in df]
     write_json(df,f'{download_dir}//{emplid}')   
 
+def min_max_value(inputlist,option):
+    if option=="max":
+        return(max([sublist[-1] for sublist in inputlist]))
+    elif option=="min":
+        return(min([sublist[-1] for sublist in inputlist]))
 
 def mover(path,fname,dest):
     oldpath=path+fname
@@ -194,7 +199,7 @@ def update_json(filename,someobj):
         write_json(someobj,filename[:-4])
         
 def write_json(someobj,filename):
-    if ".json" in filename[-5:]:
+    if ".json" in filename:
         file=filename
     else:
         file=f'{filename}.json'
