@@ -5,7 +5,7 @@ import json
 from itertools import chain
 import subprocess
 import datetime as dt
-from datetime import datetime as dt2
+from datetime import time,datetime as dt2
 from Crypto.Cipher import AES
 import pip
 from pip import _internal
@@ -87,6 +87,23 @@ def jsrename(emplid,download_dir):
     df=[tuple([emplid]+list(i)) for i in df]
     write_json(df,f'{download_dir}//{emplid}')   
 
+def linewrap(text,char):
+    textlist=[i for i in text.split(' ') if i!='']
+    counter=0
+    currlist=[]
+    finalstr=''
+    for i in textlist:
+        if (counter+len(i))<char:
+            currlist.append(i)
+            counter+=len(i)
+        else:
+            currlist[-1]=currlist[-1]+'\n'
+            finalstr=finalstr+' '.join(currlist)
+            currlist=[i]
+            counter=len(i)
+    return(finalstr)
+            
+
 def min_max_value(inputlist,option):
     if option=="max":
         return(max([sublist[-1] for sublist in inputlist]))
@@ -141,6 +158,21 @@ def read_json(filename):
           return(json.load(f))
   else:
       return(None)
+     
+def read_rewrite(path,fname,obj):
+    x=read_json(os.path.join(path,fname))
+    if type(x)==list:
+        x.extend(obj)
+    elif type(x)==dict:
+        x.update(obj)
+    else:
+        print('Not a list or a dictionary')
+    write_json(x,os.path.join(path,fname))
+    
+def read_overwrite(path,fname,obj):
+    x=read_json(os.path.join(path,fname))
+    if x!=obj:
+        write_json(obj,os.path.join(path,fname))
 
 def rehead(df,num):
     new_header = df.iloc[(num-1)].values #grab the first row for the header
@@ -176,7 +208,23 @@ def subprocess_cmd(command,wd):
     process = subprocess.Popen(command,stdout=subprocess.PIPE, shell=True,cwd=wd)
     proc_stdout = process.communicate()[0].strip()
     print(proc_stdout)
-    
+   
+
+
+def time_check(begin_time, end_time, check_time=None):
+    """
+    is looking for 2 arguments as tuples in 24 hour clock format
+    """
+    begin_time=time(begin_time[0],begin_time[1])
+    end_time=time(end_time[0],end_time[1])
+    # If check time is not given, default to current UTC time
+    check_time = check_time or dt.now().time()
+    if begin_time < end_time:
+        return check_time >= begin_time and check_time <= end_time
+    else: # crosses midnight
+        return check_time >= begin_time or check_time <= end_time
+
+
 def to_records(path,fname,reheadnum):
     df=colclean(rehead(pd.read_excel(newest(path,fname)),reheadnum))
     return(list(df.itertuples(index=False,name=None)))
